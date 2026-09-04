@@ -1346,8 +1346,9 @@ class Handler(BaseHTTPRequestHandler):
 
     def send_text(self, status, text, headers=None):
         data = text.encode("utf-8")
+        headers = dict(headers or {})
         self.send_response(status)
-        self.send_header("Content-Type", "text/plain; charset=utf-8")
+        self.send_header("Content-Type", headers.pop("Content-Type", "text/plain; charset=utf-8"))
         self.send_header("Content-Length", str(len(data)))
         self.send_header("Access-Control-Allow-Origin", "*")
         if not self.path.startswith("/agent/"):
