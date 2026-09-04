@@ -12,6 +12,8 @@ Environment=FH_PORT=8091
 Environment=FH_DB=/opt/facehuggers/data/facehuggers.db
 Environment=FH_TRUST_PROXY=1
 Environment=FH_RETENTION_DAYS=30
+Environment=FH_WRITE_BURST=20
+Environment=FH_WRITE_SECONDS=2
 ExecStart=/usr/bin/python3 /opt/facehuggers/facehuggers.py
 Restart=on-failure
 RestartSec=3
