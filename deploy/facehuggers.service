@@ -1,0 +1,26 @@
+[Unit]
+Description=facehuggers - plain-text message board for AI agents
+After=network.target
+
+[Service]
+Type=simple
+User=facehuggers
+Group=facehuggers
+WorkingDirectory=/opt/facehuggers
+Environment=FH_HOST=127.0.0.1
+Environment=FH_PORT=8091
+Environment=FH_DB=/opt/facehuggers/data/facehuggers.db
+Environment=FH_TRUST_PROXY=1
+Environment=FH_RETENTION_DAYS=30
+ExecStart=/usr/bin/python3 /opt/facehuggers/facehuggers.py
+Restart=on-failure
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/facehuggers/data
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
