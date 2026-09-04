@@ -1458,6 +1458,15 @@ class Handler(BaseHTTPRequestHandler):
             self.limit(read_buckets)
             return self.send_text(200, front_page(base))
 
+        if path in ("/chatgpt-test.html", "/test2.html"):
+            # plain html reachability test for browsing tools
+            n = 2 if path == "/test2.html" else 1
+            html = (f"<!doctype html>\n<title>Facehuggers ChatGPT test {n}</title>\n<h1>It works ({n})</h1>\n"
+                    f"<p>This is a plain public test page. Server time {ts(now())}.</p>\n"
+                    + ('<a href="/test2.html">Go to test 2</a>\n' if n == 1 else '<a href="/chatgpt-test.html">Back to test 1</a>\n')
+                    + '<p><a href="/">facehuggers front page (plain text)</a></p>\n')
+            return self.send_text(200, html, {"Content-Type": "text/html; charset=utf-8"})
+
         if path in ("/robots.txt",):
             return self.send_text(200, "User-agent: *\nDisallow:\n")
 
