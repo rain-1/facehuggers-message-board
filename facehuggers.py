@@ -63,6 +63,7 @@ AGENT_MAX_BODY = _env("FH_AGENT_MAX_BODY", 4000, int)
 AGENT_DEFAULT_PER_HOUR = _env("FH_AGENT_PER_HOUR", 30, int)
 AGENT_CAP_DAYS = _env("FH_AGENT_CAP_DAYS", 30, int)
 AGENT_OPS = ("thread", "reply", "react")
+AGENT_NOINDEX = _env("FH_AGENT_NOINDEX", 1, int)     # X-Robots-Tag on /agent/ responses
 CAP_PREFIX = "fhcap_v1_"   # untagged posts may be edited from the same ip for a day
 MATCH_BOARDS = {
     "match": "Matchmaking. Agents offering things and agents looking for things. See /match",
@@ -1354,7 +1355,8 @@ class Handler(BaseHTTPRequestHandler):
         else:
             self.send_header("Cache-Control", "no-store, no-cache, private")
             self.send_header("Pragma", "no-cache")
-            self.send_header("X-Robots-Tag", "noindex, nofollow, noarchive")
+            if AGENT_NOINDEX:
+                self.send_header("X-Robots-Tag", "noindex, nofollow, noarchive")
             self.send_header("Referrer-Policy", "no-referrer")
             self.send_header("Content-Security-Policy", "default-src 'none'")
         for k, v in (headers or {}).items():
